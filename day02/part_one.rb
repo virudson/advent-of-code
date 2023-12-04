@@ -10,6 +10,9 @@ Benchmark.bmbm do |x|
     File.foreach('input.txt').each.with_index(1) do |line, game_id|
       # capture any two digits following color red, green, blue
       invalid_game = line.gsub(/(\d{2}) (red|green|blue)/).any? do |_m|
+        # $1: number of cubes only capture 2 digits
+        # $2: color
+        # check if cube over the game rule
         $1.to_i > cube_limit[$2]
       end
 
