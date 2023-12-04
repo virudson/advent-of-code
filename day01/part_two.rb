@@ -11,22 +11,18 @@ Benchmark.bmbm do |x|
   x.report('Day 01 - Part 2') do
     sum = 0
     File.foreach('input.txt').each do |line|
-      # replace only first match
-      line.sub!(/(#{mapper.keys.join('|')})/, mapper)
+      # replace from front then filter only digits
+      front_digits = line.gsub(/(#{mapper.keys.join('|')})/, mapper).tr('^1-9', '')
 
-      # reverse then replace only first one (last one)
-      # then reverse line back
-      line.reverse!
-      line.sub!(/(#{reverse_mapper.keys.join('|')})/, reverse_mapper)
-      line.reverse!
+      # replace from back then filter only digits
+      back_digits = line
+                       .reverse
+                       .gsub(/(#{reverse_mapper.keys.join('|')})/, reverse_mapper)
+                       .tr('^1-9', '')
 
-      # filter only digits
-      digits = line.tr('^1-9', '')
-
-      # get first and last then sum
-      sum += (digits[0] + digits[-1]).to_i
+      # get first digits and from front and back
+      sum += (front_digits[0] + back_digits[0]).to_i
     end
+    puts "Calibration value is: #{sum}"
   end
 end
-
-puts "Calibration value is: #{sum}"

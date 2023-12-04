@@ -12,7 +12,8 @@ Benchmark.bmbm do |x|
       # get first and last then sum
       sum += (digits[0] + digits[-1]).to_i
     end
+
+    puts "Calibration value is: #{sum}"
   end
 end
 
-puts "Calibration value is: #{sum}"
