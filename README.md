@@ -1,3 +1,4 @@
+https://adventofcode.com/2023/day/1
 
 ## --- Day 1: Trebuchet?! ---
 
@@ -47,3 +48,5 @@ zoneight234
 In this example, the calibration values are  `29`,  `83`,  `13`,  `24`,  `42`,  `14`, and  `76`. Adding these together produces  `_281_`.
 
 _What is the sum of all of the calibration values?_
+
+Although it hasn't changed, you can still [get your puzzle input](https://adventofcode.com/2023/day/1/input).
