@@ -46,12 +46,6 @@ Benchmark.bmbm do |x|
           s_start = s_map[0]
           s_end = s_map[1]
 
-          # if n_map[2] == 911 && s_map[2] == '3*9'
-            p s_map[2], n_map[2]
-            p "#{n_start} <= #{s_end} && #{s_start} <= #{n_end}"
-            p n_start <= s_end && s_start <= n_end
-          # end
-
           # check even diagonally
           next unless s_start <= n_end && n_start <= s_end
 
@@ -60,12 +54,9 @@ Benchmark.bmbm do |x|
           compare_line[n_start..n_end] = '.' * (n_end + 1 - n_start)
         end
       end
-      p symbol_mapper
-      p number_mapper
       sum_parts
     end
 
-    debug = true
     sum = 0
     upper_line = nil
     middle_line = nil
@@ -73,7 +64,6 @@ Benchmark.bmbm do |x|
 
     File.foreach('input.txt', chomp: true) do |line|
       # rotate new line from bottom
-      lines << upper_line if debug
       upper_line = middle_line
       middle_line = lower_line
       lower_line = line
