@@ -17,6 +17,7 @@ Benchmark.bmbm do |x|
       end
 
       # add game IDs when game is valid
+      # if game id is perfect ASC can use `$.` as it returns line number
       sum += line[/\d+/].to_i unless invalid_game
     end
 
