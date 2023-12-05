@@ -5,7 +5,7 @@ require 'benchmark'
 Benchmark.bmbm do |x|
   x.report('Day 01 - Part 1') do
     sum = 0
-    File.foreach('input.txt').each do |line|
+    File.foreach('input.txt') do |line|
       # filter only digits
       digits = line.tr('^1-9', '')
 
@@ -16,4 +16,3 @@ Benchmark.bmbm do |x|
     puts "Calibration value is: #{sum}"
   end
 end
-

@@ -10,7 +10,7 @@ reverse_mapper = mapper.keys.map(&:reverse).zip([*1..9]).to_h
 Benchmark.bmbm do |x|
   x.report('Day 01 - Part 2') do
     sum = 0
-    File.foreach('input.txt').each do |line|
+    File.foreach('input.txt') do |line|
       # replace from front then filter only digits
       front_digits = line.gsub(/(#{mapper.keys.join('|')})/, mapper).tr('^1-9', '')
 
