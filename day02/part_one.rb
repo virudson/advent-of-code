@@ -2,11 +2,11 @@
 
 require 'benchmark'
 
-cube_limit = { 'red' => 12, 'green' => 13, 'blue' => 14 }
-
 Benchmark.bmbm do |x|
   x.report('Day 02 - Part 1') do
     sum = 0
+    cube_limit = { 'red' => 12, 'green' => 13, 'blue' => 14 }
+
     File.foreach('input.txt') do |line|
       # capture any two digits following color red, green, blue
       invalid_game = line.gsub(/(\d{2}) (red|green|blue)/).any? do |_m|

@@ -4,6 +4,28 @@ require 'benchmark'
 
 Benchmark.bmbm do |x|
   x.report('Day 03 - Part 1') do
+    sum = 0
+    upper_line = nil
+    middle_line = nil
+    lower_line = nil
+
+    File.foreach('input.txt', chomp: true) do |line|
+      # rotate new line from bottom
+      upper_line = middle_line
+      middle_line = lower_line
+      lower_line = line
+
+      # match when symbol adjacent to digit
+      sum += find_parts(lower_line, lower_line) if lower_line =~ /\d?[^\w.]|[^\w.]\d?/
+      next unless middle_line =~ /[^\w.]/
+
+      # process adjacent line when middle line have symbol
+      sum += find_parts(middle_line, upper_line) if upper_line =~ /\d+/
+      sum += find_parts(middle_line, lower_line) if lower_line =~ /\d+/
+    end
+
+    puts "Sum of part numbers in the engine is: #{sum}"
+
     # return array of indexes of numbers
     # [ [start_index_digit, end_index_digits, numbers], [...], ... ]
     def detect_number(string)
@@ -56,27 +78,5 @@ Benchmark.bmbm do |x|
       end
       sum_parts
     end
-
-    sum = 0
-    upper_line = nil
-    middle_line = nil
-    lower_line = nil
-
-    File.foreach('input.txt', chomp: true) do |line|
-      # rotate new line from bottom
-      upper_line = middle_line
-      middle_line = lower_line
-      lower_line = line
-
-      # match when symbol adjacent to digit
-      sum += find_parts(lower_line, lower_line) if lower_line =~ /\d?[^\w.]|[^\w.]\d?/
-      next unless middle_line =~ /[^\w.]/
-
-      # process adjacent line when middle line have symbol
-      sum += find_parts(middle_line, upper_line) if upper_line =~ /\d+/
-      sum += find_parts(middle_line, lower_line) if lower_line =~ /\d+/
-    end
-
-    puts "Sum of part numbers in the engine is: #{sum}"
   end
 end

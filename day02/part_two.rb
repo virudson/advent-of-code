@@ -5,6 +5,7 @@ require 'benchmark'
 Benchmark.bmbm do |x|
   x.report('Day 02 - Part 2') do
     sum = 0
+
     File.foreach('input.txt') do |line|
       cube_count = Hash.new(0)
       # capture any digits following color red, green, blue
