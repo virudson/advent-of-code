@@ -3,7 +3,7 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 03 - Part 1') do
+  x.report('Day 03 - Part 2') do
     # return array of indexes of numbers
     # [ [start_index_digit, end_index_digits, numbers], [...], ... ]
     def detect_number(string)
@@ -22,11 +22,11 @@ Benchmark.bmbm do |x|
     # return array of indexes of symbols
     # [ [start_index_symbol - 1, end_index_symbol + 1], [...], ... ]
     def detect_symbol(string)
-      string.to_enum(:scan, /[^\w.]/).map do |match|
+      string.to_enum(:scan, /\*/).map do |match|
         # "$`" -> string before matched string.
         # "$`.size" -> size of string before match.
         # for example
-        # "123..?..114.." will found 1 match
+        # "123..*..114.." will found 1 match
         # 1) $` = "123.." / $`.size = 5 / match = '?'
 
         [$`.size - 1, $`.size + match.size]
@@ -41,7 +41,7 @@ Benchmark.bmbm do |x|
       symbol_map[0] <= number_map[1] && number_map[0] <= symbol_map[1]
     end
 
-    def find_part(upper, middle, lower)
+    def find_ratio(upper, middle, lower)
       ratio = 0
       symbol_mapper = detect_symbol(middle)
       upper_num_map = detect_number(upper)
@@ -54,13 +54,15 @@ Benchmark.bmbm do |x|
         mid_map = middle_num_map.select { |n_map| overlap?(s_map, n_map) }
         low_map = lower_num_map.select { |n_map| overlap?(s_map, n_map) }
 
+        next if (up_map.size + mid_map.size + low_map.size) != 2
+
         # Replace used numbers
         up_map.each { |n_map| clean_line(upper, n_map[0], n_map[1]) }
         mid_map.each { |n_map| clean_line(middle, n_map[0], n_map[1]) }
         low_map.each { |n_map| clean_line(lower, n_map[0], n_map[1]) }
 
         # Calculate ratio
-        ratio += (up_map + mid_map + low_map).map(&:last).sum
+        ratio += (up_map + mid_map + low_map).map { |n_map| n_map[2] }.inject(&:*)
       end
       ratio
     end
@@ -76,13 +78,12 @@ Benchmark.bmbm do |x|
       middle_line = lower_line
       lower_line = line
 
-      # detect symbol at middle line
-      next unless middle_line =~ /[^\w.]/
+      # detect * at middle line
+      next unless middle_line =~ /\*/
 
-      # process adjacent line when middle line have symbol
-      sum += find_part(upper_line, middle_line, lower_line)
+      sum += find_ratio(upper_line, middle_line, lower_line)
     end
 
-    puts "Sum of part numbers in the engine is: #{sum}"
+    puts "Sum of gear ratios is: #{sum}"
   end
 end
