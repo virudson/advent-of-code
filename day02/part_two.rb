@@ -19,6 +19,6 @@ Benchmark.bmbm do |x|
       sum += cube_count.values.inject(&:*)
     end
 
-    puts "Sum of the power of game set is: #{sum}"
+    # puts "Sum of the power of game set is: #{sum}"
   end
 end

@@ -21,6 +21,6 @@ Benchmark.bmbm do |x|
       sum += line[/\d+/].to_i unless invalid_game
     end
 
-    puts "Sum of the IDs game is: #{sum}"
+    # puts "Sum of the IDs game is: #{sum}"
   end
 end

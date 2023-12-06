@@ -23,6 +23,6 @@ Benchmark.bmbm do |x|
       # get first digits and from front and back
       sum += (front_digits[0] + back_digits[0]).to_i
     end
-    puts "Calibration value is: #{sum}"
+    # puts "Calibration value is: #{sum}"
   end
 end

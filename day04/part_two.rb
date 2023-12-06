@@ -26,6 +26,6 @@ Benchmark.bmbm do |x|
       end
     end
 
-    puts "Total scratchcards is: #{card_on_hands.values.sum}"
+    # puts "Total scratchcards is: #{card_on_hands.values.sum}"
   end
 end

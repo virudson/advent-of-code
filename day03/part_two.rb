@@ -84,6 +84,6 @@ Benchmark.bmbm do |x|
       sum += find_ratio(upper_line, middle_line, lower_line)
     end
 
-    puts "Sum of gear ratios is: #{sum}"
+    # puts "Sum of gear ratios is: #{sum}"
   end
 end

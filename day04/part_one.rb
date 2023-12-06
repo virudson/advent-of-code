@@ -19,6 +19,6 @@ Benchmark.bmbm do |x|
       end
     end
 
-    puts "Total winning points is: #{sum}"
+    # puts "Total winning points is: #{sum}"
   end
 end

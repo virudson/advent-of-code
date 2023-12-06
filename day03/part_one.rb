@@ -83,6 +83,6 @@ Benchmark.bmbm do |x|
       sum += find_part(upper_line, middle_line, lower_line)
     end
 
-    puts "Sum of part numbers in the engine is: #{sum}"
+    # puts "Sum of part numbers in the engine is: #{sum}"
   end
 end
