@@ -3,8 +3,8 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 07 - Part 1') do
-    @card_power = %w[2 3 4 5 6 7 8 9 T J Q K A].zip(1..13).to_h
+  x.report('Day 07 - Part 2') do
+    @card_power = %w[J 2 3 4 5 6 7 8 9 T Q K A].zip(1..13).to_h
     @type_power = %w[11111 1112 122 113 23 14 5].zip(1..7).to_h
 
     def compare_type(hand1, hand2)
@@ -17,7 +17,14 @@ Benchmark.bmbm do |x|
 
     # returns 11111 1112 122 113 23 14 5 depending on cards in hand
     def hand_type(hand)
-      hand.chars.tally.values.sort.join
+      a_cards = hand.chars.tally
+
+      if hand.include?('J') && hand != 'JJJJJ'
+        joker_count = a_cards.delete('J')
+        most_card = a_cards.key(a_cards.values.max)
+        a_cards[most_card] += joker_count
+      end
+      a_cards.values.sort.join
     end
 
     def compare_hand(hand1, hand2)
