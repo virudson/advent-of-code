@@ -32,10 +32,12 @@ Benchmark.bmbm do |x|
       mapper.gsub(/\d+/).map(&:to_i).each_slice(3).to_a
     end
 
-    seed_data.map do |seed, hash|
-      hash[seed] = all_mappers.map do |mapper|
+    result = seed_data.map do |seed|
+      all_mappers.map do |mapper|
         seed = find_min(seed, mapper)
       end.last
-    end.min
+    end
+
+    # puts "Lowest location number is: #{result.min}"
   end
 end
