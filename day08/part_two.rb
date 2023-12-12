@@ -3,7 +3,7 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 08 - Part 1') do
+  x.report('Day 08 - Part 2') do
     input_data = File.read('input.txt').split("\n\n")
     routes = input_data[0]
     start_nodes = []
