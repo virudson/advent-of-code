@@ -1,122 +1,143 @@
+## --- Day 7: Camel Cards ---
 
-## --- Day 6: Wait For It ---
+Your all-expenses-paid trip turns out to be a one-way, five-minute ride in
+an  [airship](https://en.wikipedia.org/wiki/Airship). (At least it's a  _cool_
+airship!) It drops you off at the edge of a vast desert and descends back to
+Island Island.
 
-The ferry quickly brings you across Island Island. After asking around, you discover that there is indeed normally a large pile of sand somewhere near here, but you don't see anything besides lots of water and the small island where the ferry has docked.
+"Did you bring the parts?"
 
-As you try to figure out what to do next, you notice a poster on a wall near the ferry dock. "Boat races! Open to the public! Grand prize is an all-expenses-paid trip to  _Desert Island_!" That must be where the sand comes from! Best of all, the boat races are starting in just a few minutes.
+You turn around to see an Elf completely covered in white clothing, wearing
+goggles, and riding a large  [camel](https://en.wikipedia.org/wiki/Dromedary).
 
-You manage to sign up as a competitor in the boat races just in time. The organizer explains that it's not really a traditional race - instead, you will get a fixed amount of time during which your boat has to travel as far as it can, and you win if your boat goes the farthest.
+"Did you bring the parts?" she asks again, louder this time. You aren't sure
+what parts she's looking for; you're here to figure out why the sand stopped.
 
-As part of signing up, you get a sheet of paper (your puzzle input) that lists the  _time_  allowed for each race and also the best  _distance_  ever recorded in that race. To guarantee you win the grand prize, you need to make sure you  _go farther in each race_  than the current record holder.
+"The parts! For the sand, yes! Come with me; I will show you." She beckons you
+onto the camel.
 
-The organizer brings you over to the area where the boat races are held. The boats are much smaller than you expected - they're actually  _toy boats_, each with a big button on top. Holding down the button  _charges the boat_, and releasing the button  _allows the boat to move_. Boats move faster if their button was held longer, but time spent holding the button counts against the total race time. You can only hold the button at the start of the race, and boats don't move until the button is released.
+After riding a bit across the sands of Desert Island, you can see what look like
+very large rocks covering half of the horizon. The Elf explains that the rocks
+are all along the part of Desert Island that is directly above Island Island,
+making it hard to even get there. Normally, they use big machines to move the
+rocks and filter the sand, but the machines have broken down because Desert
+Island recently stopped receiving the  _parts_  they need to fix the machines.
 
-For example:
+You've already assumed it'll be your job to figure out why the parts stopped
+when she asks if you can help. You agree automatically.
+
+Because the journey will take a few days, she offers to teach you the game of
+_Camel Cards_. Camel Cards is sort of similar
+to  [poker](https://en.wikipedia.org/wiki/List_of_poker_hands)  except it's
+designed to be easier to play while riding a camel.
+
+In Camel Cards, you get a list of  _hands_, and your goal is to order them based
+on the  _strength_  of each hand. A hand consists of  _five cards_  labeled one
+of  `A`,  `K`,  `Q`,  `J`,  `T`,  `9`,  `8`,  `7`,  `6`,  `5`,  `4`,  `3`,
+or  `2`. The relative strength of each card follows this order, where  `A`  is
+the highest and  `2`  is the lowest.
+
+Every hand is exactly one  _type_. From strongest to weakest, they are:
+
+- _Five of a kind_, where all five cards have the same label:  `AAAAA`
+- _Four of a kind_, where four cards have the same label and one card has a
+  different label:  `AA8AA`
+- _Full house_, where three cards have the same label, and the remaining two
+  cards share a different label:  `23332`
+- _Three of a kind_, where three cards have the same label, and the remaining
+  two cards are each different from any other card in the hand:  `TTT98`
+- _Two pair_, where two cards share one label, two other cards share a second
+  label, and the remaining card has a third label:  `23432`
+- _One pair_, where two cards share one label, and the other three cards have a
+  different label from the pair and each other:  `A23A4`
+- _High card_, where all cards' labels are distinct:  `23456`
+
+Hands are primarily ordered based on type; for example, every  _full house_  is
+stronger than any  _three of a kind_.
+
+If two hands have the same type, a second ordering rule takes effect. Start by
+comparing the  _first card in each hand_. If these cards are different, the hand
+with the stronger first card is considered stronger. If the first card in each
+hand have the  _same label_, however, then move on to considering the  _second
+card in each hand_. If they differ, the hand with the higher second card wins;
+otherwise, continue with the third card in each hand, then the fourth, then the
+fifth.
+
+So,  `33332`  and  `2AAAA`  are both  _four of a kind_  hands, but  `33332`  is
+stronger because its first card is stronger. Similarly,  `77888`  and  `77788`
+are both a  _full house_, but  `77888`  is stronger because its third card is
+stronger (and both hands have the same first and second card).
+
+To play Camel Cards, you are given a list of hands and their corresponding
+_bid_  (your puzzle input). For example:
 
 ```
-Time:      7  15   30
-Distance:  9  40  200
+32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483
 ```
 
-This document describes three races:
+This example shows five hands; each hand is followed by its  _bid_  amount. Each
+hand wins an amount equal to its bid multiplied by its  _rank_, where the
+weakest hand gets rank 1, the second-weakest hand gets rank 2, and so on up to
+the strongest hand. Because there are five hands in this example, the strongest
+hand will have rank 5 and its bid will be multiplied by 5.
 
--   The first race lasts 7 milliseconds. The record distance in this race is 9 millimeters.
--   The second race lasts 15 milliseconds. The record distance in this race is 40 millimeters.
--   The third race lasts 30 milliseconds. The record distance in this race is 200 millimeters.
+So, the first step is to put the hands in order of strength:
 
-Your toy boat has a starting speed of  _zero millimeters per millisecond_. For each whole millisecond you spend at the beginning of the race holding down the button, the boat's speed increases by  _one millimeter per millisecond_.
+- `32T3K`  is the only  _one pair_  and the other hands are all a stronger type,
+  so it gets rank  _1_.
+- `KK677`  and  `KTJJT`  are both  _two pair_. Their first cards both have the
+  same label, but the second card of  `KK677`  is stronger (`K`  vs  `T`),
+  so  `KTJJT`  gets rank  _2_  and  `KK677`  gets rank  _3_.
+- `T55J5`  and  `QQQJA`  are both  _three of a kind_.  `QQQJA`  has a stronger
+  first card, so it gets rank  _5_  and  `T55J5`  gets rank  _4_.
 
-So, because the first race lasts 7 milliseconds, you only have a few options:
+Now, you can determine the total winnings of this set of hands by adding up the
+result of multiplying each hand's bid with its rank (`765`  * 1 +  `220`  *
+2 +  `28`  * 3 +  `684`  * 4 +  `483`  * 5). So the  _total winnings_  in this
+example are  `_6440_`.
 
--   Don't hold the button at all (that is, hold it for  _`0`  milliseconds_) at the start of the race. The boat won't move; it will have traveled  _`0`  millimeters_  by the end of the race.
--   Hold the button for  _`1`  millisecond_  at the start of the race. Then, the boat will travel at a speed of  `1`  millimeter per millisecond for 6 milliseconds, reaching a total distance traveled of  _`6`  millimeters_.
--   Hold the button for  _`2`  milliseconds_, giving the boat a speed of  `2`  millimeters per millisecond. It will then get 5 milliseconds to move, reaching a total distance of  _`10`  millimeters_.
--   Hold the button for  _`3`  milliseconds_. After its remaining 4 milliseconds of travel time, the boat will have gone  _`12`  millimeters_.
--   Hold the button for  _`4`  milliseconds_. After its remaining 3 milliseconds of travel time, the boat will have gone  _`12`  millimeters_.
--   Hold the button for  _`5`  milliseconds_, causing the boat to travel a total of  _`10`  millimeters_.
--   Hold the button for  _`6`  milliseconds_, causing the boat to travel a total of  _`6`  millimeters_.
--   Hold the button for  _`7`  milliseconds_. That's the entire duration of the race. You never let go of the button. The boat can't move until you let go of the button. Please make sure you let go of the button so the boat gets to move.  _`0`  millimeters_.
+Find the rank of every hand in your set.  _What are the total winnings?_
 
-Since the current record for this race is  `9`  millimeters, there are actually  `_4_`  different ways you could win: you could hold the button for  `2`,  `3`,  `4`, or  `5`  milliseconds at the start of the race.
-
-In the second race, you could hold the button for at least  `4`  milliseconds and at most  `11`  milliseconds and beat the record, a total of  `_8_`  different ways to win.
-
-In the third race, you could hold the button for at least  `11`  milliseconds and no more than  `19`  milliseconds and still beat the record, a total of  `_9_`  ways you could win.
-
-To see how much margin of error you have, determine the  _number of ways you can beat the record_  in each race; in this example, if you multiply these values together, you get  `_288_`  (`4`  *  `8`  *  `9`).
-
-Determine the number of ways you could beat the record in each race.  _What do you get if you multiply these numbers together?_
-
-To begin,  [get your puzzle input](https://adventofcode.com/2023/day/6/input).## --- Day 6: Wait For It ---
-
-The ferry quickly brings you across Island Island. After asking around, you discover that there is indeed normally a large pile of sand somewhere near here, but you don't see anything besides lots of water and the small island where the ferry has docked.
-
-As you try to figure out what to do next, you notice a poster on a wall near the ferry dock. "Boat races! Open to the public! Grand prize is an all-expenses-paid trip to  _Desert Island_!" That must be where the sand comes from! Best of all, the boat races are starting in just a few minutes.
-
-You manage to sign up as a competitor in the boat races just in time. The organizer explains that it's not really a traditional race - instead, you will get a fixed amount of time during which your boat has to travel as far as it can, and you win if your boat goes the farthest.
-
-As part of signing up, you get a sheet of paper (your puzzle input) that lists the  _time_  allowed for each race and also the best  _distance_  ever recorded in that race. To guarantee you win the grand prize, you need to make sure you  _go farther in each race_  than the current record holder.
-
-The organizer brings you over to the area where the boat races are held. The boats are much smaller than you expected - they're actually  _toy boats_, each with a big button on top. Holding down the button  _charges the boat_, and releasing the button  _allows the boat to move_. Boats move faster if their button was held longer, but time spent holding the button counts against the total race time. You can only hold the button at the start of the race, and boats don't move until the button is released.
-
-For example:
-
-```
-Time:      7  15   30
-Distance:  9  40  200
-```
-
-This document describes three races:
-
--   The first race lasts 7 milliseconds. The record distance in this race is 9 millimeters.
--   The second race lasts 15 milliseconds. The record distance in this race is 40 millimeters.
--   The third race lasts 30 milliseconds. The record distance in this race is 200 millimeters.
-
-Your toy boat has a starting speed of  _zero millimeters per millisecond_. For each whole millisecond you spend at the beginning of the race holding down the button, the boat's speed increases by  _one millimeter per millisecond_.
-
-So, because the first race lasts 7 milliseconds, you only have a few options:
-
--   Don't hold the button at all (that is, hold it for  _`0`  milliseconds_) at the start of the race. The boat won't move; it will have traveled  _`0`  millimeters_  by the end of the race.
--   Hold the button for  _`1`  millisecond_  at the start of the race. Then, the boat will travel at a speed of  `1`  millimeter per millisecond for 6 milliseconds, reaching a total distance traveled of  _`6`  millimeters_.
--   Hold the button for  _`2`  milliseconds_, giving the boat a speed of  `2`  millimeters per millisecond. It will then get 5 milliseconds to move, reaching a total distance of  _`10`  millimeters_.
--   Hold the button for  _`3`  milliseconds_. After its remaining 4 milliseconds of travel time, the boat will have gone  _`12`  millimeters_.
--   Hold the button for  _`4`  milliseconds_. After its remaining 3 milliseconds of travel time, the boat will have gone  _`12`  millimeters_.
--   Hold the button for  _`5`  milliseconds_, causing the boat to travel a total of  _`10`  millimeters_.
--   Hold the button for  _`6`  milliseconds_, causing the boat to travel a total of  _`6`  millimeters_.
--   Hold the button for  _`7`  milliseconds_. That's the entire duration of the race. You never let go of the button. The boat can't move until you let go of the button. Please make sure you let go of the button so the boat gets to move.  _`0`  millimeters_.
-
-Since the current record for this race is  `9`  millimeters, there are actually  `_4_`  different ways you could win: you could hold the button for  `2`,  `3`,  `4`, or  `5`  milliseconds at the start of the race.
-
-In the second race, you could hold the button for at least  `4`  milliseconds and at most  `11`  milliseconds and beat the record, a total of  `_8_`  different ways to win.
-
-In the third race, you could hold the button for at least  `11`  milliseconds and no more than  `19`  milliseconds and still beat the record, a total of  `_9_`  ways you could win.
-
-To see how much margin of error you have, determine the  _number of ways you can beat the record_  in each race; in this example, if you multiply these values together, you get  `_288_`  (`4`  *  `8`  *  `9`).
-
-Determine the number of ways you could beat the record in each race.  _What do you get if you multiply these numbers together?_
-
-To begin,  [get your puzzle input](https://adventofcode.com/2023/day/6/input).
+To begin,  [get your puzzle input](https://adventofcode.com/2023/day/7/input).
 
 ## --- Part Two ---
 
-As the race is about to start, you realize the piece of paper with race times and record distances you got earlier actually just has  very bad  [kerning](https://en.wikipedia.org/wiki/Kerning). There's really  _only one race_  - ignore the spaces between the numbers on each line.
+To make things a little more interesting, the Elf introduces one additional
+rule. Now,  `J`  cards
+are  [jokers](https://en.wikipedia.org/wiki/Joker_(playing_card))  - wildcards
+that can act like whatever card would make the hand the strongest type possible.
 
-So, the example from before:
+To balance this,  _`J`  cards are now the weakest_  individual cards, weaker
+even than  `2`. The other cards stay in the same
+order:  `A`,  `K`,  `Q`,  `T`,  `9`,  `8`,  `7`,  `6`,  `5`,  `4`,  `3`,  `2`,  `J`.
+
+`J`  cards can pretend to be whatever card is best for the purpose of
+determining hand type; for example,  `QJJQ2`  is now considered  _four of a
+kind_. However, for the purpose of breaking ties between two hands of the same
+type,  `J`  is always treated as  `J`, not the card it's pretending to
+be:  `JKKK2`  is weaker than  `QQQQ2`  because  `J`  is weaker than  `Q`.
+
+Now, the above example goes very differently:
 
 ```
-Time:      7  15   30
-Distance:  9  40  200
+32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483
 ```
 
-...now instead means this:
+- `32T3K`  is still the only  _one pair_; it doesn't contain any jokers, so its
+  strength doesn't increase.
+- `KK677`  is now the only  _two pair_, making it the second-weakest hand.
+- `T55J5`,  `KTJJT`, and  `QQQJA`  are now all  _four of a kind_!  `T55J5`  gets
+  rank 3,  `QQQJA`  gets rank 4, and  `KTJJT`  gets rank 5.
 
-```
-Time:      71530
-Distance:  940200
-```
+With the new joker rule, the total winnings in this example are  `_5905_`.
 
-Now, you have to figure out how many ways there are to win this single race. In this example, the race lasts for  _`71530`  milliseconds_  and the record distance you need to beat is  _`940200`  millimeters_. You could hold the button anywhere from  `14`  to  `71516`  milliseconds and beat the record, a total of  `_71503_`  ways!
-
-_How many ways can you beat the record in this one much longer race?_
-
-Although it hasn't changed, you can still  [get your puzzle input](https://adventofcode.com/2023/day/6/input).
+Using the new joker rule, find the rank of every hand in your set.  _What are
+the new total winnings?_
