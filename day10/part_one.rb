@@ -38,13 +38,6 @@ Benchmark.bmbm do |x|
       @maze[x][y] = @replaces[current]
     end
 
-    # | is a vertical pipe connecting north and south.
-    # - is a horizontal pipe connecting east and west.
-    # L is a 90-degree bend connecting north and east.
-    # J is a 90-degree bend connecting north and west.
-    # 7 is a 90-degree bend connecting south and west.
-    # F is a 90-degree bend connecting south and east.
-
     @slots = { 'S' => 'TBLR', '|' => 'TB', '-' => 'LR', 'L' => 'TR', 'J' => 'TL', '7' => 'BL', 'F' => 'BR' }
     @connects = { 'T' => '|7F', 'B' => '|JL', 'L' => '-LF', 'R' => '-7J' }
     @replaces = { 'S' => 'S', '|' => '║', '-' => '═', 'L' => '╚', 'J' => '╝', '7' => '╗', 'F' => '╔' }
