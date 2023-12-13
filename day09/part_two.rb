@@ -3,7 +3,7 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 09 - Part 1') do
+  x.report('Day 09 - Part 2') do
     sum = 0
     File.foreach('input.txt') do |line|
       timeline = []
