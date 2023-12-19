@@ -3,7 +3,7 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 12 - Part 1') do
+  x.report('Day 12 - Part 2') do
     def mapper_for(pattern, regex)
       pattern.to_enum(:scan, regex).map do |match|
         index = Regexp.last_match.pre_match.size
