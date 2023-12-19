@@ -3,7 +3,7 @@
 require 'benchmark'
 
 Benchmark.bmbm do |x|
-  x.report('Day 13 - Part 1') do
+  x.report('Day 13 - Part 2') do
     def find_reflection(data)
       data_size = data.size - 1
       data_size.times.map do |index|
