@@ -5,7 +5,7 @@ require 'benchmark'
 Benchmark.bmbm do |x|
   x.report('Day 11 - Part 2') do
     def find_space(array_2d)
-      array_2d.map.with_index(0) do |line, index|
+      array_2d.map.with_index do |line, index|
         index unless line.join =~ /#/
       end.compact
     end
@@ -13,11 +13,11 @@ Benchmark.bmbm do |x|
     universe = File.readlines('input.txt', chomp: true).map(&:chars)
     space_rows = find_space(universe)
     space_cols = find_space(universe.transpose)
-    galaxies = universe.flat_map.with_index(0) do |line, row|
+    galaxies = universe.flat_map.with_index do |line, row|
       line.join.enum_for(:scan, /#/).map { [row, Regexp.last_match.offset(0).first] }
     end
 
-    shortest_path = galaxies.each_with_object({}).with_index(0) do |(from, hash), f_idx|
+    shortest_path = galaxies.each_with_object({}).with_index do |(from, hash), f_idx|
       galaxies[(f_idx + 1)..].each.with_index(f_idx + 1) do |to, t_idx|
         key = [t_idx + 1, f_idx + 1].sort.join('/')
         next if hash[key]

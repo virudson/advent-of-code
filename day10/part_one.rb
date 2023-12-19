@@ -20,7 +20,6 @@ Benchmark.bmbm do |x|
     end
 
     def direction_by(x, y)
-
       current = @maze[x][y]
       return if current !~ /[#{@slots.keys.sort.join}]/
 
