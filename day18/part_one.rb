@@ -14,9 +14,9 @@ Benchmark.bmbm do |x|
 
     @directions = { 'U' => [-1, 0], 'D' => [1, 0], 'L' => [0, -1], 'R' => [0, 1] }
     patterns = File.readlines('input.txt', chomp: true).map do
-      pattern = _1.split(' ')
-      pattern[1] = pattern[1].to_i
-      pattern
+      str = _1.split(' ')
+      str[1] = str[1].to_i
+      str.first(2)
     end
 
     # finding min/max of canvas
@@ -46,11 +46,10 @@ Benchmark.bmbm do |x|
     x = 0 - rows[0]
     y = 0 - cols[0]
     patterns.each do |pattern|
-      direction = pattern[0]
-      steps = pattern[1].to_i
-      draw(x, y, direction, steps)
+      direction, step = pattern
+      draw(x, y, direction, step)
       move_x, move_y = @directions[direction]
-                         .zip([steps, steps])
+                         .zip([step, step])
                          .map { _1.inject(&:*) }
       x, y = [move_x, move_y].zip([x, y]).map(&:sum)
     end
