@@ -1,3 +1,4 @@
+
 ## --- Day 1: Historian Hysteria ---
 
 The  _Chief Historian_  is always present for the big Christmas sleigh launch,
@@ -75,30 +76,12 @@ To find the  _total distance_  between the left list and the right list, add up
 the distances between all of the pairs you found. In the example above, this is
 `2 + 1 + 0 + 1 + 2 + 5`, a total distance of  `_11_`!
 
-## --- Part Two ---
+Your actual left and right lists contain many location IDs.  _What is the total
+distance between your lists?_
 
-Your calculation isn't quite right. It looks like some of the digits are
-actually  _spelled out with letters_:  `one`,  `two`,  `three`,  `four`,
-`five`,  `six`,  `seven`,  `eight`, and  `nine`  _also_  count as valid "
-digits".
+Your puzzle answer was  `1889772`.
 
-Equipped with this new information, you now need to find the real first and last
-digit on each line. For example:
-
-```
-two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen
-```
-
-In this example, the calibration values are  `29`,  `83`,  `13`,  `24`,  `42`,
-`14`, and  `76`. Adding these together produces  `_281_`.
-
-_What is the sum of all of the calibration values?_
+The first half of this puzzle is complete! It provides one gold star: *
 
 ## --- Part Two ---
 
@@ -126,7 +109,6 @@ Here are the same example lists again:
 1   3
 3   9
 3   3
-
 ```
 
 For these example lists, here is the process of finding the similarity score:
