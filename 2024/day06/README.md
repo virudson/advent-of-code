@@ -1,139 +1,257 @@
-## --- Day 5: Print Queue ---
+## --- Day 6: Guard Gallivant ---
 
-Satisfied with their search on Ceres, the squadron of scholars suggests
-subsequently scanning the stationery stacks of sub-basement 17.
+The Historians use their fancy  [device](https://adventofcode.com/2024/day/4)
+again, this time to whisk you all away to the North Pole prototype suit
+manufacturing lab... in the year  [1518](https://adventofcode.com/2018/day/5)!
+It turns out that having direct access to history is very convenient for a group
+of historians.
 
-The North Pole printing department is busier than ever this close to Christmas,
-and while The Historians continue their search of this historically significant
-facility, an Elf operating
-a  [very familiar printer](https://adventofcode.com/2017/day/1)  beckons you
-over.
+You still have to be careful of time paradoxes, and so it will be important to
+avoid anyone from 1518 while The Historians search for the Chief. Unfortunately,
+a single  _guard_  is patrolling this part of the lab.
 
-The Elf must recognize you, because they waste no time explaining that the new
-_sleigh launch safety manual_  updates won't print correctly. Failure to update
-the safety manuals would be dire indeed, so you offer your services.
+Maybe you can work out where the guard will go ahead of time so that The
+Historians can search safely?
 
-Safety protocols clearly indicate that new pages for the safety manuals must be
-printed in a  _very specific order_. The notation  `X|Y`  means that if both
-page number  `X`  and page number  `Y`  are to be produced as part of an update,
-page number  `X`  _must_  be printed at some point before page number  `Y`.
-
-The Elf has for you both the  _page ordering rules_  and the  _pages to produce
-in each update_  (your puzzle input), but can't figure out whether each update
-has the pages in the right order.
-
-For example:
+You start by making a map (your puzzle input) of the situation. For example:
 
 ```
-47|53
-97|13
-97|61
-97|47
-75|29
-61|13
-75|53
-29|13
-97|29
-53|29
-61|53
-97|53
-61|29
-47|13
-75|47
-97|75
-47|61
-75|61
-47|29
-75|13
-53|13
-
-75,47,61,53,29
-97,61,53,29,13
-75,29,13
-75,97,47,61,53
-61,13,29
-97,13,75,29,47
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#..^.....
+........#.
+#.........
+......#...
 ```
 
-The first section specifies the  _page ordering rules_, one per line. The first
-rule,  `47|53`, means that if an update includes both page number 47 and page
-number 53, then page number 47  _must_  be printed at some point before page
-number 53. (47 doesn't necessarily need to be  _immediately_  before 53; other
-pages are allowed to be between them.)
+The map shows the current position of the guard with  `^`  (to indicate the
+guard is currently facing  _up_  from the perspective of the map). Any
+_obstructions_  - crates, desks, alchemical reactors, etc. - are shown as  `#`.
 
-The second section specifies the page numbers of each  _update_. Because most
-safety manuals are different, the pages needed in the updates are different too.
-The first update,  `75,47,61,53,29`, means that the update consists of page
-numbers 75, 47, 61, 53, and 29.
+Lab guards in 1518 follow a very strict patrol protocol which involves
+repeatedly following these steps:
 
-To get the printers going as soon as possible, start by identifying  _which
-updates are already in the right order_.
+- If there is something directly in front of you, turn right 90 degrees.
+- Otherwise, take a step forward.
 
-In the above example, the first update (`75,47,61,53,29`) is in the right order:
-
-- `75`  is correctly first because there are rules that put each other page
-  after it:  `75|47`,  `75|61`,  `75|53`, and  `75|29`.
-- `47`  is correctly second because 75 must be before it (`75|47`) and every
-  other page must be after it according to  `47|61`,  `47|53`, and  `47|29`.
-- `61`  is correctly in the middle because 75 and 47 are before it (`75|61`  and
-  `47|61`) and 53 and 29 are after it (`61|53`  and  `61|29`).
-- `53`  is correctly fourth because it is before page number 29 (`53|29`).
-- `29`  is the only page left and so is correctly last.
-
-Because the first update does not include some page numbers, the ordering rules
-involving those missing page numbers are ignored.
-
-The second and third updates are also in the correct order according to the
-rules. Like the first update, they also do not include every page number, and so
-only some of the ordering rules apply - within each update, the ordering rules
-that involve missing page numbers are not used.
-
-The fourth update,  `75,97,47,61,53`, is  _not_  in the correct order: it would
-print 75 before 97, which violates the rule  `97|75`.
-
-The fifth update,  `61,13,29`, is also  _not_  in the correct order, since it
-breaks the rule  `29|13`.
-
-The last update,  `97,13,75,29,47`, is  _not_  in the correct order due to
-breaking several rules.
-
-For some reason, the Elves also need to know the  _middle page number_  of each
-update being printed. Because you are currently only printing the
-correctly-ordered updates, you will need to find the middle page number of each
-correctly-ordered update. In the above example, the correctly-ordered updates
-are:
+Following the above protocol, the guard moves up several times until she reaches
+an obstacle (in this case, a pile of failed suit prototypes):
 
 ```
-75,47,61,53,29
-97,61,53,29,13
-75,29,13
+....#.....
+....^....#
+..........
+..#.......
+.......#..
+..........
+.#........
+........#.
+#.........
+......#...
 ```
 
-These have middle page numbers of  `61`,  `53`, and  `29`  respectively. Adding
-these page numbers together gives  `_143_`.
+Because there is now an obstacle in front of the guard, she turns right before
+continuing straight in her new facing direction:
 
-Of course, you'll need to be careful: the actual list of  _page ordering rules_
-is bigger and more complicated than the above example.
+```
+....#.....
+........>#
+..........
+..#.......
+.......#..
+..........
+.#........
+........#.
+#.........
+......#...
+```
 
-Determine which updates are already in the correct order.  _What do you get if
-you add up the middle page number from those correctly-ordered updates?_
+Reaching another obstacle (a spool of several  _very_  long polymers), she turns
+right again and continues downward:
+
+```
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#......v.
+........#.
+#.........
+......#...
+```
+
+This process continues for a while, but the guard eventually leaves the mapped
+area (after walking past a tank of universal solvent):
+
+```
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#........
+........#.
+#.........
+......#v..
+```
+
+By predicting the guard's route, you can determine which specific positions in
+the lab will be in the patrol path.  _Including the guard's starting position_,
+the positions visited by the guard before leaving the area are marked with an
+`X`:
+
+```
+....#.....
+....XXXXX#
+....X...X.
+..#.X...X.
+..XXXXX#X.
+..X.X.X.X.
+.#XXXXXXX.
+.XXXXXXX#.
+#XXXXXXX..
+......#X..
+```
+
+In this example, the guard will visit  `_41_`  distinct positions on your map.
+
+Predict the path of the guard.  _How many distinct positions will the guard
+visit before leaving the mapped area?_
 
 ## --- Part Two ---
 
-While the Elves get to work printing the correctly-ordered updates, you have a
-little time to fix the rest of them.
+While The Historians begin working around the guard's patrol route, you borrow
+their fancy device and step outside the lab. From the safety of a supply closet,
+you time travel through the last few months
+and  [record](https://adventofcode.com/2018/day/4)  the nightly status of the
+lab's guard post on the walls of the closet.
 
-For each of the  _incorrectly-ordered updates_, use the page ordering rules to
-put the page numbers in the right order. For the above example, here are the
-three incorrectly-ordered updates and their correct orderings:
+Returning after what seems like only a few seconds to The Historians, they
+explain that the guard's patrol area is simply too large for them to safely
+search the lab without getting caught.
 
-- `75,97,47,61,53`  becomes  `97,75,_47_,61,53`.
-- `61,13,29`  becomes  `61,_29_,13`.
-- `97,13,75,29,47`  becomes  `97,75,_47_,29,13`.
+Fortunately, they are  _pretty sure_  that adding a single new obstruction
+_won't_  cause a time paradox. They'd like to place the new obstruction in such
+a way that the guard will get  _stuck in a loop_, making the rest of the lab
+safe to search.
 
-After taking  _only the incorrectly-ordered updates_  and ordering them
-correctly, their middle page numbers are  `47`,  `29`, and  `47`. Adding these
-together produces  `_123_`.
+To have the lowest chance of creating a time paradox, The Historians would like
+to know  _all_  of the possible positions for such an obstruction. The new
+obstruction can't be placed at the guard's starting position - the guard is
+there right now and would notice.
 
-Find the updates which are not in the correct order.  _What do you get if you
-add up the middle page numbers after correctly ordering just those updates?_
+In the above example, there are only  `_6_`  different positions where a new
+obstruction would cause the guard to get stuck in a loop. The diagrams of these
+six situations use  `O`  to mark the new obstruction,  `|`  to show a position
+where the guard moves up/down,  `-`  to show a position where the guard moves
+left/right, and  `+`  to show a position where the guard moves both up/down and
+left/right.
+
+Option one, put a printing press next to the guard's starting position:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+....|..#|.
+....|...|.
+.#.O^---+.
+........#.
+#.........
+......#...
+```
+
+Option two, put a stack of failed suit prototypes in the bottom right quadrant
+of the mapped area:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+..+-+-+#|.
+..|.|.|.|.
+.#+-^-+-+.
+......O.#.
+#.........
+......#...
+```
+
+Option three, put a crate of chimney-squeeze prototype fabric next to the
+standing desk in the bottom right quadrant:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+..+-+-+#|.
+..|.|.|.|.
+.#+-^-+-+.
+.+----+O#.
+#+----+...
+......#...
+```
+
+Option four, put an alchemical retroencabulator near the bottom left corner:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+..+-+-+#|.
+..|.|.|.|.
+.#+-^-+-+.
+..|...|.#.
+#O+---+...
+......#...
+```
+
+Option five, put the alchemical retroencabulator a bit to the right instead:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+..+-+-+#|.
+..|.|.|.|.
+.#+-^-+-+.
+....|.|.#.
+#..O+-+...
+......#...
+```
+
+Option six, put a tank of sovereign glue right next to the tank of universal
+solvent:
+
+```
+....#.....
+....+---+#
+....|...|.
+..#.|...|.
+..+-+-+#|.
+..|.|.|.|.
+.#+-^-+-+.
+.+----++#.
+#+----++..
+......#O..
+```
+
+It doesn't really matter what you choose to use as an obstacle so long as you
+and The Historians can put it into position without the guard noticing. The
+important thing is having enough options that you can find one that minimizes
+time paradoxes, and in this example, there are  `_6_`  different positions you
+could choose.
+
+You need to get the guard stuck in a loop by adding a single new obstruction.
+_How many different positions could you choose for this obstruction?_
