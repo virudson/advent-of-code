@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-File.readlines('input.txt').sum do |line, hash|
+File.readlines('input.txt').sum do |line|
   result, nums = line.split(': ')
   result = result.to_i
   nums = nums.split("\s").map(&:to_i)
