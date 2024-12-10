@@ -1,8 +1,18 @@
 # frozen_string_literal: true
 
+require 'rainbow/refinement'
+using Rainbow
+
 STEPS = ('0'..'9').to_a
 DIRECTIONS = { t: [-1, 0], r: [0, 1], b: [1, 0], l: [0, -1] }.freeze
 @dirs = DIRECTIONS.values
+
+def demo_map(foot_steps)
+  map = Marshal.load(Marshal.dump(@map))
+  foot_steps.each { |(x, y)| map[x][y] = map[x][y].green }
+  puts map.map(&:join)
+  puts '====================='
+end
 
 def walk(current_pos, current_lv, foot_steps, peak_count = {})
   foot_steps.add(current_pos)
@@ -18,6 +28,7 @@ def walk(current_pos, current_lv, foot_steps, peak_count = {})
       peak_count[[x, y]] ||= 0
       peak_count[[x, y]] += 1
       foot_steps.add([x, y])
+      # demo_map(foot_steps)
     else
       walk([x, y], next_lv, foot_steps.clone, peak_count)
     end
