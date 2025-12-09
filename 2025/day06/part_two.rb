@@ -1,17 +1,19 @@
-lines = File.read(File.join(File.dirname(__FILE__), 'input.txt')).split(/\n/)
-operators = lines.pop.split(/\s+/)
-line_size = lines.map(&:size).max
-lines = lines.map { ("%-#{line_size}s" % it).chars }
-             .transpose
-             .map { Integer(it.join.strip, exception: false) }
+lines = File.read(File.join(File.dirname(__FILE__), 'input.txt'))
+            .split(/\n/)
+            .map { it.reverse.chars }
+            .transpose
+            .map(&:join)
 
-result = lines
-           .slice_when { it.nil? }
-           .zip(operators)
-           .map { it.flatten!.compact }
-           .sum do
-  operator = it.pop
-  it.map(&:to_i).inject(&operator.to_sym)
+result = 0
+stacks = []
+
+lines.each do |line|
+  next if line[..-2].to_i == 0
+  stacks << line[..-2].to_i
+  next if line[-1] == ' '
+
+  result += stacks.inject(line[-1].to_sym)
+  stacks.clear
 end
 
 puts result
